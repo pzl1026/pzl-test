@@ -1,94 +1,57 @@
-html, body {
-  height: 100%;
-  font-size: 12px; }
+* {
+  margin: 0;
+  padding: 0; }
 
 body {
+  background: #000;
+  height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin: 0;
-  background: #05232D; }
+  align-items: center; }
 
-.container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  width: 800px;
-  height: 600px; }
-  .container .content {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%; }
-  .container .controller {
-    width: 100%;
-    left: 0;
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    top: 50%;
-    margin-top: -3.1rem; }
-    .container .controller .left, .container .controller .right {
-      position: relative;
-      width: 3.1rem;
-      height: 3.1rem;
-      border: 3px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      cursor: pointer;
-      margin: 20px;
-      transition: all 300ms; }
-      .container .controller .left:hover, .container .controller .right:hover {
-        transform: scale(1.1); }
-      .container .controller .left:after, .container .controller .right:after {
-        display: block;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        margin-top: -1.1rem;
-        content: '';
-        width: 0;
-        height: 0; }
-    .container .controller .left:after {
-      margin-left: -1rem;
-      border-top: 1.1rem solid transparent;
-      border-bottom: 1.1rem solid transparent;
-      border-right: 1.5rem solid rgba(255, 255, 255, 0.2); }
-    .container .controller .right:after {
-      margin-left: -0.5rem;
-      border-top: 1.1rem solid transparent;
-      border-bottom: 1rem solid transparent;
-      border-left: 1.5rem solid rgba(255, 255, 255, 0.2); }
-  .container .desc {
+@keyframes move {
+  0%,
+	100% {
+    background-position-x: left; }
+  50% {
+    background-position-x: right; } }
+.shape-container {
+  width: 500px;
+  height: 500px;
+  position: relative; }
+  .shape-container div {
     position: absolute;
     width: 100%;
-    bottom: 1.6rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    left: 0; }
-    .container .desc a {
-      color: rgba(255, 255, 255, 0.2);
-      text-decoration: none;
-      font-size: 1.2rem;
-      line-height: 2rem; }
-    .container .desc a:hover {
-      color: rgba(255, 255, 255, 0.3); }
-    .container .desc a.title {
-      font-size: 1.5rem;
-      font-weight: bold; }
-
-@media screen and (max-width: 800px) {
-  .container {
-    width: 100vw;
-    height: 75vw; }
-    .container .desc {
-      bottom: -2rem; }
-      .container .desc a {
-        font-size: 1rem;
-        line-height: 1.5rem; }
-      .container .desc a.title {
-        font-size: 1.2rem; } }
+    height: 100%;
+    animation: move 5s infinite;
+    background: linear-gradient(135deg, red, orange, green, blue, purple) left center/400% 400%; }
+  .shape-container .shape2 {
+    clip-path: polygon(35% 16%, 50% 25%, 44% 24%); }
+  .shape-container .shape3 {
+    clip-path: polygon(65% 16%, 50% 25%, 56% 24%); }
+  .shape-container .shape4 {
+    clip-path: polygon(35% 16%, 44% 24%, 25% 24%); }
+  .shape-container .shape5 {
+    clip-path: polygon(65% 16%, 56% 24%, 75% 24%); }
+  .shape-container .shape6 {
+    clip-path: polygon(20% 13%, 35% 16%, 25% 24%); }
+  .shape-container .shape8 {
+    clip-path: polygon(10% 13%, 20% 13%, 25% 24%); }
+  .shape-container .shape10 {
+    clip-path: polygon(4% 20%, 10% 13%, 25% 24%); }
+  .shape-container .shape12 {
+    clip-path: polygon(5% 32%, 4% 20%, 25% 24%); }
+  .shape-container .shape14 {
+    clip-path: polygon(5% 32%, 25% 24%, 28% 33%); }
+  .shape-container .shape16 {
+    clip-path: polygon(44% 24%, 25% 24%, 28% 33%); }
+  .shape-container .shape18 {
+    clip-path: polygon(44% 24%, 50% 25%, 28% 33%); }
+  .shape-container .shape20 {
+    clip-path: polygon(50% 70%, 50% 25%, 28% 33%); }
+  .shape-container .shape22 {
+    clip-path: polygon(7% 40%, 28% 33%, 5% 32%); }
+  .shape-container .shape24 {
+    clip-path: polygon(7% 40%, 28% 33%, 5% 32%); }
 
 /*# sourceMappingURL=index.css.map */
