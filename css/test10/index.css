@@ -1,0 +1,43 @@
+.scroll-indicator {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid purple;
+  width: 500px;
+  height: 300px; }
+  .scroll-indicator::after {
+    position: absolute;
+    left: 0;
+    right: 5px;
+    top: 2px;
+    bottom: 0;
+    background-color: #fff;
+    content: ""; }
+
+.article {
+  overflow: auto;
+  height: 100%; }
+  .article::-webkit-scrollbar {
+    width: 5px; }
+  .article::-webkit-scrollbar-track {
+    background-color: #f0f0f0; }
+  .article::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: purple; }
+  .article article {
+    padding: 0 20px;
+    background: linear-gradient(to right top, red 50%, #f0f0f0 50%) no-repeat;
+    background-size: 100% calc(100% - 298px + 5px); }
+    .article article > * {
+      position: relative;
+      z-index: 9; }
+  .article h1 {
+    line-height: 40px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px; }
+  .article p {
+    margin-top: 20px;
+    line-height: 20px;
+    text-indent: 2em; }
+
+/*# sourceMappingURL=index.css.map */

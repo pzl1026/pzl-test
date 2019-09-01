@@ -1,0 +1,16 @@
+.color-changer {
+  overflow: hidden;
+  position: relative;
+  height: 100%; }
+  .color-changer input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    mix-blend-mode: multiply; }
+  .color-changer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; }
+
+/*# sourceMappingURL=index.css.map */

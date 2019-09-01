@@ -1,0 +1,30 @@
+$red: #f00;
+
+@mixin waveline($h, $color: $red) {
+	position: relative;
+	&::after {
+		position: absolute;
+		left: 0;
+		top: 100%;
+		width: 100%;
+		height: $h;
+		background: linear-gradient(135deg, transparent, transparent 45%, $color, transparent 55%, transparent 100%), linear-gradient(45deg, transparent, transparent 45%, $color, transparent 55%, transparent 100%);
+		background-size: $h * 2 $h * 2;
+		content: "";
+	}
+}
+.waveline-text {
+	height: 20px;
+	line-height: 20px;
+	letter-spacing: 10px;
+	@include waveline(10px);
+}
+
+.square-bg {
+	width: 500px;
+	height: 300px;
+	background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%),
+		linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%);
+	background-position: 0 0, 20px 20px;
+	background-size: 40px 40px;
+}

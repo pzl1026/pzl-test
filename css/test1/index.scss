@@ -1,0 +1,42 @@
+$bg: "https://yangzw.vip/static/codepen/bg.jpg";
+$red: red;
+$blue: blue;
+$green: green;
+
+.bruce {
+	overflow: auto;
+	perspective: 100px;
+	transform-style: preserve-3d;
+	p {
+		height: 300px;
+		line-height: 300px;
+		text-align: center;
+		font-size: 20px;
+		color: $red;
+	}
+}
+.parallax-scrolling {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 10000px;
+	background: url($bg) no-repeat center fixed;
+	li {
+		width: 500px;
+		text-align: center;
+		font-weight: bold;
+		font-size: 60px;
+		&:nth-child(1) {
+			color: $red;
+			transform: translateZ(-1px);
+		}
+		&:nth-child(2) {
+			color: $blue;
+			transform: translateZ(-2px);
+		}
+		&:nth-child(3) {
+			color: $green;
+			transform: translateZ(-3px);
+		}
+	}
+}

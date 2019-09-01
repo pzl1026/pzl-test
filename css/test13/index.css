@@ -1,0 +1,51 @@
+.state-ball {
+  overflow: hidden;
+  position: relative;
+  padding: 5px;
+  border: 3px solid green;
+  border-radius: 100%;
+  width: 150px;
+  height: 150px;
+  background-color: #fff; }
+  .state-ball::before, .state-ball::after {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    z-index: 20;
+    margin-left: -100px;
+    width: 200px;
+    height: 200px;
+    content: ""; }
+  .state-ball::before {
+    margin-top: -150px;
+    border-radius: 45%;
+    background-color: rgba(255, 255, 255, 0.5);
+    animation: rotate 10s linear -5s infinite; }
+  .state-ball::after {
+    margin-top: -160px;
+    border-radius: 40%;
+    background-color: rgba(255, 255, 255, 0.8);
+    animation: rotate 15s infinite; }
+  .state-ball.warning {
+    border-color: orange; }
+    .state-ball.warning .wave {
+      background-image: linear-gradient(-180deg, #f0c78a 13%, orange 91%); }
+  .state-ball.danger {
+    border-color: red; }
+    .state-ball.danger .wave {
+      background-image: linear-gradient(-180deg, #f78989 13%, red 91%); }
+
+.wave {
+  position: relative;
+  border-radius: 100%;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(-180deg, #af8 13%, green 91%); }
+
+@keyframes rotate {
+  from {
+    transform: rotate(0); }
+  to {
+    transform: rotate(1turn); } }
+
+/*# sourceMappingURL=index.css.map */

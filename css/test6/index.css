@@ -1,0 +1,23 @@
+.waveline-text {
+  height: 20px;
+  line-height: 20px;
+  letter-spacing: 10px;
+  position: relative; }
+  .waveline-text::after {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(135deg, transparent, transparent 45%, #f00, transparent 55%, transparent 100%), linear-gradient(45deg, transparent, transparent 45%, #f00, transparent 55%, transparent 100%);
+    background-size: 20px 20px;
+    content: ""; }
+
+.square-bg {
+  width: 500px;
+  height: 300px;
+  background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%), linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%);
+  background-position: 0 0, 20px 20px;
+  background-size: 40px 40px; }
+
+/*# sourceMappingURL=index.css.map */
