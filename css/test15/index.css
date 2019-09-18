@@ -53,5 +53,31 @@ body {
     clip-path: polygon(7% 40%, 28% 33%, 5% 32%); }
   .shape-container .shape24 {
     clip-path: polygon(7% 40%, 28% 33%, 5% 32%); }
+  .shape-container .s1 {
+    clip-path: polygon(25% 25%, 25% 37.5%, 37.5% 25%); }
+  .shape-container .s2 {
+    clip-path: polygon(38.5% 38.5%, 25% 37.5%, 37.5% 25%); }
+  .shape-container .s3 {
+    clip-path: polygon(50% 25%, 38.5% 38.5%, 37.5% 25%); }
+  .shape-container .s4 {
+    clip-path: polygon(25% 50%, 38.5% 38.5%, 25% 37.5%); }
+  .shape-container .s5 {
+    clip-path: polygon(25% 65%, 25% 50%, 38.5% 62.5%); }
+  .shape-container .s6 {
+    clip-path: polygon(25% 75%, 25% 65%, 38.5% 62.5%); }
+  .shape-container .s7 {
+    clip-path: polygon(38.5% 75%, 25% 75%, 32.1% 68.5%); }
+  .shape-container .s8 {
+    clip-path: polygon(50% 75%, 38.5% 75%, 52% 68.5%); }
+  .shape-container .s9 {
+    clip-path: polygon(43.3% 58%, 38.5% 75%, 32.1% 68.5%); }
+  .shape-container .s10 {
+    clip-path: polygon(25% 50%, 38.5% 62.5%, 43.3% 58%); }
+  .shape-container .s11 {
+    clip-path: polygon(50% 75%, 53.2% 65%, 65% 75%); }
+  .shape-container .s12 {
+    clip-path: polygon(43.3% 58%, 38.5% 75%, 52% 68.5%); }
+  .shape-container .s13 {
+    clip-path: polygon(75% 75%, 65% 75%, 75% 65%); }
 
 /*# sourceMappingURL=index.css.map */
