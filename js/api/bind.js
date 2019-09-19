@@ -16,3 +16,4 @@ function test1(a) {
 
 console.log(test1.myBind(test, 2222)());
 console.log(test1.myBind(test)(3333));
+console.log(222);
