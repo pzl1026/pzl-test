@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+</head>
+
+<body>
+    <style>
+        *{margin: 0; padding:0}
+    </style>
+    <canvas id="canvas"></canvas>
+    <script>
+        //blog post here http://www.sakri.net/blog/2014/05/01/canvas-bitmap-collision-with-xor/
+
+        window.requestAnimationFrame =
+            window.__requestAnimationFrame ||
+            window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            (function () {
+                return function (callback, element) {
+                    var lastTime = element.__lastTime;
+                    if (lastTime === undefined) {
+                        lastTime = 0;
+                    }
+                    var currTime = Date.now();
+                    var timeToCall = Math.max(1, 33 - (currTime - lastTime));
+                    window.setTimeout(callback, timeToCall);
+                    element.__lastTime = currTime + timeToCall;
+                };
+            })();
+
+        var readyStateCheckInterval = setInterval(function () {
+            if (document.readyState === "complete") {
+                clearInterval(readyStateCheckInterval);
+                init();
+            }
+        }, 10);
+
+        var collisionCanvas = document.createElement("canvas");
+        var canvas, context, collisionContext;
+        var fontSize, characterIndex = 0, bounds = {};
+        var characters = ["S", "A", "K", "R", "I"];
+        var ball = {};
+        var animating = false;
+
+        function init() {
+            canvas = document.getElementById("canvas");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            console.log(canvas.width, canvas.height);
+            context = canvas.getContext("2d");
+            fontSize = Math.floor(window.innerHeight / 3);
+            context.textBaseline = "top";
+            context.font = "bold normal " + fontSize + "px sans-serif";
+            showNextCharacter();
+        }
+
+        function randomRGB() {
+            return Math.floor(Math.random() * 255);
+        }
+
+        function showNextCharacter() {
+            var character = characters[characterIndex];
+            var width = context.measureText(character).width;
+            bounds.x = Math.floor(canvas.width / 2 - width / 2);
+            bounds.y = Math.floor(canvas.height / 2 - fontSize / 2);
+            collisionCanvas.width = bounds.width = width + 30;
+            collisionCanvas.height = bounds.height = fontSize;
+            collisionContext = collisionCanvas.getContext("2d");
+            collisionContext.globalCompositeOperation = "xor";
+            collisionContext.fillStyle = context.fillStyle = "rgb(" + randomRGB() + ", " + randomRGB() + ", " + randomRGB() + ")";
+            shoot();
+        }
+
+        function shoot() {
+            ball.radius = fontSize / 5;
+            var radian = Math.random() * (Math.PI * 2);
+            ball.x = canvas.width / 2 + Math.cos(radian) * (fontSize * 2);
+            ball.y = canvas.height / 2 + Math.sin(radian) * (fontSize * 2);
+            radian = Math.atan2(ball.y - canvas.height / 2, ball.x - canvas.width / 2);
+            ball.xSpeed = Math.cos(radian) * (-ball.radius / 3);
+            ball.ySpeed = Math.sin(radian) * (-ball.radius / 3);
+            animating = true;
+            loop();
+        }
+
+        function loop() {
+            if (animating) {
+                window.requestAnimationFrame(loop, canvas);
+                moveBall();
+            }
+        }
+
+        function moveBall() {
+            ball.x += ball.xSpeed;
+            ball.y += ball.ySpeed;
+            render();
+        }
+
+        function render() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            collisionContext.clearRect(0, 0, collisionCanvas.width, collisionCanvas.height);
+
+            context.fillText(characters[characterIndex], bounds.x, bounds.y);
+            collisionContext.drawImage(canvas, bounds.x, bounds.y, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
+
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.beginPath();
+            context.moveTo(ball.x, ball.y);
+            context.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            context.fill();
+            collisionContext.drawImage(canvas, bounds.x, bounds.y, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
+
+            context.fillText(characters[characterIndex], bounds.x, bounds.y);
+
+            context.drawImage(collisionCanvas, 0, 0);
+            checkCollision();
+        }
+
+        function checkCollision() {
+            var data = context.getImageData(bounds.x, bounds.y, bounds.width, bounds.height).data;
+            var collisionData = collisionContext.getImageData(0, 0, collisionCanvas.width, collisionCanvas.height).data;
+            console.log(data, collisionData);
+            for (var i = 0; i < data.length; i += 4) {
+                if (data[i + 3] != collisionData[i + 3]) {
+                    animating = false;
+                    characterIndex++;
+                    characterIndex %= characters.length;
+                    // setTimeout(showNextCharacter, 1000);
+                    return;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

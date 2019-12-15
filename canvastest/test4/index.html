@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <style>
+        #canvas {
+            background-color: #cccccc;
+
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var canvas = document.getElementById("canvas");
+            var cobj = canvas.getContext("2d");
+            // var num=150;
+            var arr = [];
+            //var angle=0;
+            setInterval(function () {
+                cobj.clearRect(0, 0, 600, 600);
+                for (var i = 0; i < arr.length; i++) {
+
+                    cobj.save();
+                    cobj.translate(300, 300);
+                    cobj.scale(arr[i].scale, arr[i].scale);
+                    cobj.rotate(arr[i].angle * Math.PI / 180);//旋转时的圆心为定义旋转前画布的原点位置，后面更改了原点的位置只影响到后面的绘制，下面的矩形就是原点在（50,50）地方的，而旋转的圆心在（100，100）处
+                    cobj.beginPath();
+                    cobj.fillStyle = arr[i].color;
+                    cobj.rect(arr[i].num, arr[i].num, 30, 30);
+                    cobj.fill();
+                    cobj.restore();
+                }
+
+
+            }, 60)
+            setInterval(function () {
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].num <= 0) {
+                        arr.splice(i, 1);//删掉当前元素；
+                        continue;//同时退出本次循环
+
+                    }
+                    //变化过程中的储存的设置很重要，如果变化的储存没有设置好则有可能会达不到效果
+                    arr[i].angle += 2;
+                    arr[i].num -= 0.2;
+                    arr[i].scale -= 0.002;
+                    if (arr[i].scale <= 0.2)
+                        arr[i].scale = 0.2;
+                }
+
+            }, 60)
+            setInterval(function () {
+                var rect = { angle: 0, num: 150, scale: 1, color: "rgb(" + parseInt(Math.random() * 255) + "," + parseInt(Math.random() * 255) + "," + parseInt(Math.random() * 255) + ")" };
+                arr.push(rect);
+            }, 1000)
+
+        }
+    </script>
+</head>
+
+<body>
+    <canvas id="canvas" width=600px height=600px>
+        您的浏览器已经过期了！
+    </canvas>
+
+</body>
+
+</html>
