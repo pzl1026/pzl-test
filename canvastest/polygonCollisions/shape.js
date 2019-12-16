@@ -44,7 +44,8 @@ Shape.prototype = {
             axis = axes[i];
             projection1 = shape.project(axis);
             projection2 = this.project(axis);
-            overlap = projection1.overlap(projection2);
+            console.log(projection1, projection2, 'ppp')
+            overlap = projection1.overlaps(projection2);
 
             if (overlap === 0) {
                 return {
@@ -100,5 +101,9 @@ Shape.prototype = {
     isPointInPath: function(context, x, y) {
         this.createPath(context);
         return context.isPointInPath(x, y)
+    },
+
+    boundingBox: function () {
+        return this.getBoundingClientRect();
     }
 }
