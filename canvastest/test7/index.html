@@ -1,0 +1,179 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+</head>
+<style>
+body {
+  overflow: hidden;
+}
+
+canvas {
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+</style>
+<body>
+    <canvas></canvas>
+    <script>
+        const $ = {};
+
+        $.PI = Math.PI;
+        $.TAU = $.PI * 2;
+
+        $.rand = (min, max) => {
+            return Math.random() * (max - min) + min;
+        };
+
+        class Circle {
+            constructor(opt) {
+                this.x = opt.x;
+                this.y = opt.y;
+                this.r = 0.001;
+                this.rTarget = opt.r;
+            }
+            step() {
+                this.r += (this.rTarget - this.r) * 0.3;
+
+                if (this.r < this.rTarget - 0.0005) {
+                    $.dirty = true;
+                }
+
+                if (this.x > $.w - this.r) { this.x = $.w - this.r; $.dirty = true; }
+                if (this.x < this.r) { this.x = this.r; $.dirty = true; }
+                if (this.y > $.h - this.r) { this.y = $.h - this.r; $.dirty = true; }
+                if (this.y < this.r) { this.y = this.r; $.dirty = true; }
+            }
+            draw() {
+                $.ctx.moveTo(this.x, this.y);
+                $.ctx.arc(this.x, this.y, this.r, 0, $.TAU);
+            }
+        }
+
+        $.init = () => {
+            $.c = document.querySelector('canvas');
+            $.ctx = $.c.getContext('2d');
+            $.tick = 0;
+            $.circles = [];
+            $.dirty = false;
+            $.dirtyRect = {
+                t: 0,
+                r: 0,
+                b: 0,
+                l: 0
+            };
+            $.bindEvents();
+            $.reset();
+            $.loop();
+        };
+
+        $.reset = () => {
+            $.w = window.innerWidth;
+            $.h = window.innerHeight;
+            $.c.width = $.w * window.devicePixelRatio;
+            $.c.height = $.h * window.devicePixelRatio;
+            $.c.style.width = `${$.w}px`;
+            $.c.style.height = `${$.h}px`;
+            $.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            $.mx = $.w / 2;
+            $.my = $.h / 2;
+            $.dirty = true;
+        };
+
+        $.bindEvents = () => {
+            window.addEventListener('resize', $.onResize);
+            window.addEventListener('mousedown', $.onMousedown);
+            window.addEventListener('mouseup', $.onMouseup);
+            window.addEventListener('mousemove', $.onMousemove);
+        };
+
+        $.onResize = () => {
+            $.reset();
+        };
+
+        $.onMousedown = (e) => {
+            $.md = 1;
+            $.mx = e.pageX;
+            $.my = e.pageY;
+        };
+
+        $.onMouseup = () => {
+            $.md = 0;
+        };
+
+        $.onMousemove = (e) => {
+            $.mx = e.pageX;
+            $.my = e.pageY;
+        };
+
+        $.step = () => {
+            if ($.md || $.tick < 20) {
+                for (let i = 0; i < 2; i++) {
+                    $.circles.push(new Circle({
+                        x: $.mx,
+                        y: $.my,
+                        r: $.rand(2, 15)
+                    }));
+                }
+            }
+
+            $.dirtyRect.t = Infinity;
+            $.dirtyRect.r = -Infinity;
+            $.dirtyRect.b = -Infinity;
+            $.dirtyRect.l = Infinity;
+
+            for (let i = 0, l = $.circles.length; i < l; i++) {
+                let c1 = $.circles[i];
+                for (let j = i + 1; j < l; j++) {
+                    let c2 = $.circles[j];
+                    let dx = c1.x - c2.x;
+                    let dy = c1.y - c2.y;
+                    let dist = dx * dx + dy * dy - 50;
+                    let radii = (c1.r + c2.r) * (c1.r + c2.r);
+                    if (dist < radii - 2) {
+                        $.dirty = true;
+                        let angle = Math.atan2(dy, dx) + $.rand(-0.1, 0.1);
+                        let diff = (radii - dist) / 10;
+                        let x = Math.cos(angle) * diff * 0.125;
+                        let y = Math.sin(angle) * diff * 0.125;
+                        c1.x += x;
+                        c1.y += y;
+                        c2.x -= x;
+                        c2.y -= y;
+                    }
+                }
+
+                $.dirtyRect.t = Math.min($.dirtyRect.t, c1.y - c1.r);
+                $.dirtyRect.r = Math.max($.dirtyRect.r, c1.x + c1.r);
+                $.dirtyRect.b = Math.max($.dirtyRect.b, c1.y + c1.r);
+                $.dirtyRect.l = Math.min($.dirtyRect.l, c1.x - c1.r);
+
+                c1.step();
+            }
+
+            $.tick++;
+        };
+
+        $.draw = () => {
+            if ($.dirty) {
+                $.ctx.clearRect($.dirtyRect.l, $.dirtyRect.t, $.dirtyRect.r - $.dirtyRect.l, $.dirtyRect.b - $.dirtyRect.t);
+                $.ctx.beginPath();
+                $.circles.forEach((c) => c.draw());
+                $.ctx.fillStyle = '#000';
+                $.ctx.fill();
+                $.dirty = false;
+            }
+        };
+
+        $.loop = () => {
+            requestAnimationFrame($.loop);
+            $.step();
+            $.draw();
+        };
+
+        $.init();
+    </script>
+</body>
+
+</html>
