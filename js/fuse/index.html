@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.4.6/fuse.min.js"></script>
+        <script>
+            var a = new Array(1e6).fill(0);
+            var books = a.map((val, ix) => ({id: ix, name: 'book' + ix}));
+            console.log(books, 'books')
+            var options = {
+                keys: ['name'],
+                maxPatternLength: 7,
+                minMatchCharLength: 7,
+                // id: 'name'
+            };
+            var fuse = new Fuse(books, options)
+
+            console.log(fuse.search('8888765'));
+        </script>
+    </body>
+</html>

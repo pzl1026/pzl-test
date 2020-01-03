@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <canvas id="c" width="600" height="600"></canvas>
+        <script src="./fabric.min.js"></script>
+        <script>
+            fabric.Object.prototype.noScaleCache = true;
+            /*
+                strokeUniform works better without scalingCache
+                Objects in group are not scaled directly, so stroke uniform will not have effect.
+            */
+            function toggleUniform() {
+                // var aObject = canvas.getActiveObject();
+                // if (aObject.type === 'activeSelection') {
+                //     aObject.getObjects().forEach(function(obj) {
+                //         obj.set('strokeUniform', !obj.strokeUniform);
+                //     });
+                // } else {
+                //     aObject.set('strokeUniform', !aObject.strokeUniform);
+                // }
+                // canvas.requestRenderAll();
+            }
+
+            var canvas = this.__canvas = new fabric.Canvas('c');
+            // create a rectangle object
+            var rect = new fabric.Rect({
+                left: 100,
+                top: 50,
+                fill: '#D81B60',
+                width: 50,
+                height: 50,
+                strokeWidth: 2,
+                stroke: "#880E4F",
+                rx: 10,
+                ry: 10,
+                angle: 45,
+                scaleX: 3,
+                scaleY: 3,
+                hasControls: false,
+                selectable: false
+            });
+
+            canvas.add(rect);
+
+            var circle1 = new fabric.Circle({
+                radius: 65,
+                fill: '#039BE5',
+                left: 0,
+                stroke: 'red',
+                strokeWidth: 3,
+                hasControls: false,
+                selectable: false
+            });
+
+            var circle2 = new fabric.Circle({
+                radius: 65,
+                fill: '#4FC3F7',
+                left: 110,
+                opacity: 0.7,
+                stroke: 'blue',
+                strokeWidth: 3,
+                strokeUniform: true,
+                hasControls: false,
+                selectable: false
+            });
+
+            canvas.add(circle1);
+            canvas.add(circle2);
+        </script>
+    </body>
+</html>
