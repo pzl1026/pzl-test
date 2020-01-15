@@ -12,7 +12,9 @@ const pinging = (function () {
     let pingCb = () => {};
     let pingStatusCb = () => {}
 
-    function startPing(vlanIp) {
+    function startPing(vlanIp, opt) {
+        pingCb = opt.pingCb;
+        pingStatusCb = opt.pingStatusCb;
         vlan = vlanIp;
         for (var i = 63; i < 100; i++) {
             let host = vlan + i;
@@ -87,6 +89,9 @@ const pinging = (function () {
     return startPing;
 })();
 
-pinging('10.30.60.', );
+pinging('10.30.60.', {
+    pingCb: () => {},
+    pingStatusCb: () => {}
+    );
 
 
