@@ -11,12 +11,13 @@ const pinging = (function () {
     let vlan = '10.30.60.';
     let pingCb = () => {};
     let pingStatusCb = () => {}
+    const ipsLength = 256;
 
     function startPing(vlanIp, opt) {
         pingCb = opt.pingCb;
         pingStatusCb = opt.pingStatusCb;
         vlan = vlanIp;
-        for (var i = 63; i < 100; i++) {
+        for (var i = 1; i < ipsLength; i++) {
             let host = vlan + i;
             hosts.push(host);
         }
@@ -27,13 +28,13 @@ const pinging = (function () {
                 timeout: 10,
                 // extra: ["-i 2"],
             }).then(function (res) {
-                console.log(host, res, 'isAlive');
+                // console.log(host, res, 'isAlive');
                 pingCount++;
                 if (res.alive) {
                     hostAlives.push(host);
                 }
-                if (pingCount >= 99) {
-                    console.log(hostAlives, 'hostAlives');
+                if (pingCount >= ipsLength - 1) {
+                    // console.log(hostAlives, 'hostAlives');
                     requestHostApi(hostAlives[0]);
                 }
             });
@@ -92,6 +93,6 @@ const pinging = (function () {
 pinging('10.30.60.', {
     pingCb: () => {},
     pingStatusCb: () => {}
-    );
+});
 
 
