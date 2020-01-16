@@ -8,7 +8,7 @@ const pinging = (function () {
     let pingCount = 0;
     let hosts = [];
     let hostAlives = [];
-    let vlan = '10.30.60.';
+    let vlan = '';
     let pingCb = () => {};
     let pingStatusCb = () => {}
     const ipsLength = 256;
