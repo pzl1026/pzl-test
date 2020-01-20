@@ -12,6 +12,15 @@ function getIPAdress() {
         }
     }
 }
+
+function getVlan() {
+    let host = getIPAdress();
+    return host.substr(0, host.lastIndexOf('.')) + '.';
+}
 const myHost = getIPAdress();
 
 console.log(myHost, 'myHost')
+
+module.exports = {
+    getVlan
+}

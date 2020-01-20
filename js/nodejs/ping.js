@@ -1,7 +1,6 @@
 var ping = require('ping');
 const request = require('request');
-
-// const api = 'http://10.30.60.63/usapi?method=get-info';
+const {getVlan} = require('./ip');
 
 const pinging = (function () {
     let requestCount = 0;
@@ -10,31 +9,35 @@ const pinging = (function () {
     let hostAlives = [];
     let vlan = '';
     let pingCb = () => {};
-    let pingStatusCb = () => {}
+    let pingStatusCb = () => {};
+    let pingAllStatusCb = () => {};
+    let pingStatusSuccess = () => {};
     const ipsLength = 256;
 
     function startPing(vlanIp, opt) {
         pingCb = opt.pingCb;
         pingStatusCb = opt.pingStatusCb;
+        pingAllStatusCb = opt.pingAllStatusCb;
+        pingStatusSuccess = opt.pingStatusSuccess;
         vlan = vlanIp;
+
         for (var i = 1; i < ipsLength; i++) {
             let host = vlan + i;
             hosts.push(host);
         }
-        // var hosts = ['192.168.1.1', 'google.com', 'yahoo.com'];
+        
         hosts.forEach(function (host) {
         
             ping.promise.probe(host, {
                 timeout: 10,
                 // extra: ["-i 2"],
             }).then(function (res) {
-                // console.log(host, res, 'isAlive');
                 pingCount++;
                 if (res.alive) {
                     hostAlives.push(host);
                 }
+                pingCb();
                 if (pingCount >= ipsLength - 1) {
-                    // console.log(hostAlives, 'hostAlives');
                     requestHostApi(hostAlives[0]);
                 }
             });
@@ -57,7 +60,9 @@ const pinging = (function () {
     }
     
     function requestHostApi(host) {
+        // console.log(requestCount, hostAlives, 'requestCount')
         if (requestCount == hostAlives.length) {
+            pingAllStatusCb();
             return;
         }
         findUseHost(host);
@@ -75,13 +80,19 @@ const pinging = (function () {
             request
                 .get(`http://${host}/usapi?method=get-info`)
                 .on('response', function (response) {
-                    console.log(host, response.statusCode, 'status') // 200
+                    // console.log(host, response.statusCode, 'status') // 200
                     //   console.log(response.headers['content-type']) 
                     delayRequest();
+                    pingStatusCb(response);
+                    if (response.statusCode == 200) {
+                        console.log(response.res, 'lll')
+                        pingStatusSuccess(host);
+                    }
                 })
                 .on('error', function (err) {
-                    console.log(err, 'err'),
-                        delayRequest();
+                    // console.log(err, 'err'),
+                    delayRequest();
+                    pingStatusCb(err);
                 });
         });
     
@@ -89,10 +100,15 @@ const pinging = (function () {
 
     return startPing;
 })();
-
-pinging('10.30.60.', {
+pinging(getVlan(), {
     pingCb: () => {},
-    pingStatusCb: () => {}
+    pingStatusCb: () => {},
+    pingStatusSuccess: (host) => {
+        console.log(host, 'host');
+    },
+    pingAllStatusCb: () => {
+        console.log('状态获取完成')
+    }
 });
 
 
